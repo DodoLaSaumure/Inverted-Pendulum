@@ -8,7 +8,7 @@ import time
 
 class model(object):
     def __init__(self):
-        self.theta = 175.0*math.pi/180.0
+        self.theta = 5.0*math.pi/180.0
         self.x=0.0
         self.vx=0.0
         self.ax=0.0
@@ -22,7 +22,6 @@ class model(object):
     def ApplyMove(self,newX):
         self.deltaT = time.time()-self.t0
         self.t0 = time.time()
-        newX = newX*0.14/800.0*100.0
         vx = (newX-self.x)/self.deltaT
         ax = (vx - self.vx)/self.deltaT
         aTheta = (self.g/2.0*math.sin(self.theta)-0.5*ax*math.cos(self.theta))*3.0/self.l
@@ -42,14 +41,11 @@ class controller(object):
         delta = 0
         while self.view.continuer :
             time.sleep(0.01)
-            self.view.getposXMouse()
-
-            if self.view.left_button_pressed :
-#                 delta = self.view.x_mouse - 
-                delta = self.view.x_mouse-400.0
-            self.model.ApplyMove(delta)
-#                 self.view.action(delta,20.0)
-            self.view.action(delta+400,-self.model.theta*180.0/math.pi)
+            deltax = self.model.theta
+            lastx = self.model.x
+            newx = lastx + deltax
+            self.model.ApplyMove(newx)
+            self.view.action(newx+400,-self.model.theta*180.0/math.pi)
             self.view.processFrame()
 
             
