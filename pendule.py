@@ -55,7 +55,7 @@ class controller(object):
             [x,vx,ax,theta,vtheta]=self.model.getState()
             time.sleep(DELTAT)
 
-            deltax = self.model.theta+0.1*self.model.vx#+self.model.x*0.2
+            deltax = self.model.theta+0.1*self.model.vx+0.05*self.model.x#+self.model.x*0.2
             print (self.model.theta,self.model.vx,deltax,type(deltax))
 #             deltax =0
             lastx = self.model.x
